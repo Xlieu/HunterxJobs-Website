@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+  }
+  h1 {
+    @apply text-4xl font-bold text-primary-800;
+  }
+  h2 {
+    @apply text-3xl font-semibold text-primary-700;
+  }
+  h3 {
+    @apply text-2xl font-medium text-primary-600;
+  }
+  h4 {
+    @apply text-xl font-medium text-primary-500;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 inline-flex items-center justify-center;
+  }
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500;
+  }
+  .btn-secondary {
+    @apply bg-secondary-600 text-white hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500;
+  }
+  .btn-accent {
+    @apply bg-accent-500 text-white hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-400;
+  }
+  .btn-outline {
+    @apply border border-primary-600 text-primary-600 hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow-card p-6 hover:shadow-card-hover transition-shadow duration-200;
+  }
+  .input {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+  .label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+  
+  /* Fix for mobile navigation */
+  .mobile-nav {
+    @apply fixed top-0 left-0 right-0 bottom-0 bg-white z-50 flex flex-col p-5;
+  }
+  
+  /* Responsive container fixes */
+  .container-responsive {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Fix for image display */
+  .img-responsive {
+    @apply max-w-full h-auto object-cover;
+  }
+  
+  /* Animation classes */
+  .fade-in {
+    @apply opacity-0 transition-opacity duration-300;
+    animation: fadeIn 0.3s forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Fix for form elements */
+  .form-group {
+    @apply mb-4;
+  }
+  
+  /* Fix for LinkedIn button */
+  .linkedin-btn {
+    @apply flex items-center justify-center w-full py-2 px-4 border border-blue-600 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+  }
+  
+  /* Fix for dashboard layout */
+  .dashboard-layout {
+    @apply grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6;
+  }
+  
+  .dashboard-main {
+    @apply col-span-1 md:col-span-2 lg:col-span-3;
+  }
+  
+  .dashboard-sidebar {
+    @apply col-span-1;
+  }
+}
