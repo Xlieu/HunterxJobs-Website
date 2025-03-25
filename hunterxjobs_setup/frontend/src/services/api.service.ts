@@ -8,8 +8,17 @@ let cachedApiUrl: string | null = null;
 let lastServerCheck: number = 0;
 const SERVER_CHECK_INTERVAL = 60000; // 1 minute
 
-// Disable offline mode as per user request
-let isOfflineMode = false; 
+// Enable offline mode for GitHub Pages deployment
+const isGitHubPages = typeof window !== 'undefined' && window.location.hostname.includes('github.io');
+let isOfflineMode = isGitHubPages;
+
+// Safe access to environment variables
+const getEnvVar = (key: string): string | undefined => {
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[key] as string;
+  }
+  return undefined;
+};
 
 /**
  * Check if the API server is healthy
@@ -69,7 +78,7 @@ export const getApiBaseUrl = async (forceCheck = false): Promise<string> => {
   }
   
   // Always prioritize the configured URL
-  const configuredUrl = process.env.NEXT_PUBLIC_API_URL;
+  const configuredUrl = getEnvVar('NEXT_PUBLIC_API_URL');
   if (configuredUrl) {
     // Only check if it's healthy if we're forcing a check or don't have a cached URL
     if (forceCheck || !cachedApiUrl) {
@@ -186,6 +195,12 @@ export const apiRequest = async (
   timeout: number = 30000,
   retries = 2
 ): Promise<any> => {
+  // Use mock data when on GitHub Pages
+  if (isGitHubPages || isOfflineMode) {
+    console.log(`📦 Using mock data for ${endpoint} (GitHub Pages deployment)`);
+    return getMockResponse(endpoint);
+  }
+  
   const baseUrl = await getApiBaseUrl();
   const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
   
@@ -351,8 +366,10 @@ export default {
     
     // Check environment variables
     console.log('📋 Environment:', {
-      NODE_ENV: process.env.NODE_ENV,
-      NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL
+      isGitHubPages,
+      isOfflineMode,
+      apiUrl: getEnvVar('NEXT_PUBLIC_API_URL'),
+      nodeEnv: getEnvVar('NODE_ENV'),
     });
     
     // Try to get config from localStorage
@@ -368,7 +385,7 @@ export default {
     
     // Check server health at various URLs
     const possibleUrls = [
-      process.env.NEXT_PUBLIC_API_URL,
+      getEnvVar('NEXT_PUBLIC_API_URL'),
       'http://localhost:5000',
       'http://localhost:5001',
       'http://localhost:3001'
@@ -418,7 +435,18 @@ export default {
       console.error('❌ API test failed:', error);
     }
     
+    const results: Record<string, any> = {
+      timestamp: new Date().toISOString(),
+      environment: {
+        isGitHubPages,
+        isOfflineMode,
+        apiUrl: getEnvVar('NEXT_PUBLIC_API_URL'),
+        nodeEnv: getEnvVar('NODE_ENV'),
+      },
+      // ... rest of existing method ...
+    };
+    
     console.log('🏁 Diagnostics complete');
-    return 'Diagnostics complete - check console for results';
+    return results;
   }
 }; 
