@@ -1,4 +1,5 @@
 HunterxJobs
+
 HunterxJobs is an AI-powered platform designed to optimize your LinkedIn profile, helping you stand out to recruiters and land your dream job. Using advanced machine learning and a multi-agent architecture, the platform provides actionable insights and personalized recommendations tailored to your industry.
 
 Key Features
