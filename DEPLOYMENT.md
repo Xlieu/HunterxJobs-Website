@@ -109,4 +109,32 @@ When using mock data mode (USE_MOCK_DATA=true):
 - All API endpoints return predefined mock data
 - User authentication is simulated
 
-This is useful for demonstration purposes or when you don't want to set up a full database. 
+This is useful for demonstration purposes or when you don't want to set up a full database.
+
+## Vercel Configuration
+
+To deploy to Vercel, you need to create a Vercel configuration file at the root of your backend directory:
+
+```
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "hunterxjobs_setup/backend/src/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "hunterxjobs_setup/backend/src/server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "USE_MOCK_DATA": "true",
+    "JWT_SECRET": "56bdfb8d7a6ec785537bb3b028d49e25d94feee766024d617d4e5534e4c0ab30",
+    "JWT_EXPIRATION": "24h",
+    "FRONTEND_URL": "https://xlieu.github.io/HunterxJobs-Website"
+  }
+} 

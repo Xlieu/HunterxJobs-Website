@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "hunterxjobs_setup/backend/src/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "hunterxjobs_setup/backend/src/server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "USE_MOCK_DATA": "true",
+    "JWT_SECRET": "56bdfb8d7a6ec785537bb3b028d49e25d94feee766024d617d4e5534e4c0ab30",
+    "JWT_EXPIRATION": "24h",
+    "FRONTEND_URL": "https://xlieu.github.io/HunterxJobs-Website"
+  }
+} 
