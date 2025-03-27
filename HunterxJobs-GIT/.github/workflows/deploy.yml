@@ -1,0 +1,73 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: 'npm'
+          cache-dependency-path: 'HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend/package-lock.json'
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Install dependencies
+        run: |
+          cd HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend
+          npm ci
+        
+      - name: Create .env.production file
+        run: |
+          cd HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend
+          cat > .env.production << EOL
+          NEXT_PUBLIC_API_URL=https://hunterxjobs-api.onrender.com
+          NEXT_PUBLIC_USE_REAL_DATA=false
+          NEXT_PUBLIC_LINKEDIN_ENABLED=true
+          NEXT_PUBLIC_BASE_PATH=/HunterxJobs-Website
+          EOL
+        
+      - name: Build with Next.js
+        run: |
+          cd HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend
+          npm run build
+        
+      - name: Create .nojekyll files
+        run: |
+          touch HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend/out/.nojekyll
+          touch .nojekyll
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend/out'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 
