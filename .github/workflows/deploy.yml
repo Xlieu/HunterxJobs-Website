@@ -12,73 +12,54 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      
-      - name: Detect package manager
-        id: detect-package-manager
-        run: |
-          if [ -f "HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend/yarn.lock" ]; then
-            echo "manager=yarn" >> $GITHUB_OUTPUT
-            echo "command=install" >> $GITHUB_OUTPUT
-            echo "runner=yarn" >> $GITHUB_OUTPUT
-          elif [ -f "HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend/pnpm-lock.yaml" ]; then
-            echo "manager=pnpm" >> $GITHUB_OUTPUT
-            echo "command=install" >> $GITHUB_OUTPUT
-            echo "runner=pnpm" >> $GITHUB_OUTPUT
-          else
-            echo "manager=npm" >> $GITHUB_OUTPUT
-            echo "command=ci" >> $GITHUB_OUTPUT
-            echo "runner=npx" >> $GITHUB_OUTPUT
-          fi
-      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "18"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
-          cache-dependency-path: 'HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend/package-lock.json'
-      
+          cache: 'npm'
+          cache-dependency-path: 'hunterxjobs_setup/frontend/package-lock.json'
+
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v4
         
       - name: Install dependencies
         run: |
-          cd HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend
-          ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+          cd hunterxjobs_setup/frontend
+          npm ci
         
       - name: Create .env.production file
         run: |
-          cd HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend
-          echo "NEXT_PUBLIC_API_URL=https://hunterxjobs-api.onrender.com" > .env.production
-          echo "NEXT_PUBLIC_USE_REAL_DATA=false" >> .env.production
-          echo "NEXT_PUBLIC_LINKEDIN_ENABLED=true" >> .env.production
-          echo "NEXT_PUBLIC_BASE_PATH=/HunterxJobs-Website" >> .env.production
+          cd hunterxjobs_setup/frontend
+          cat > .env.production << EOL
+          NEXT_PUBLIC_API_URL=https://hunterxjobs-api.onrender.com
+          NEXT_PUBLIC_USE_REAL_DATA=false
+          NEXT_PUBLIC_LINKEDIN_ENABLED=true
+          NEXT_PUBLIC_BASE_PATH=/HunterxJobs-Website
+          EOL
         
       - name: Build with Next.js
         run: |
-          cd HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend
-          ${{ steps.detect-package-manager.outputs.manager }} run build
+          cd hunterxjobs_setup/frontend
+          npm run build
         
-      - name: Create .nojekyll file
+      - name: Create .nojekyll files
         run: |
-          cd HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend/out
+          touch hunterxjobs_setup/frontend/out/.nojekyll
           touch .nojekyll
-          echo "Created .nojekyll file in output directory"
-          cd ../../../..
-          touch .nojekyll
-          echo "Created root .nojekyll file for GitHub Pages"
         
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: 'HunterXJobs_Optimized_NoVenv/hunterxjobs_setup/frontend/out'
+          path: 'hunterxjobs_setup/frontend/out'
 
   deploy:
     environment:
@@ -89,4 +70,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2 
+        uses: actions/deploy-pages@v4 
