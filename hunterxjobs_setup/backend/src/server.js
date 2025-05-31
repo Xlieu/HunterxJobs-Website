@@ -87,32 +87,25 @@ if (!config.linkedin || !config.linkedin.clientId || !config.linkedin.clientSecr
 }
 
 // Connect to MongoDB
-// Set default MongoDB URI if not provided
 if (!process.env.MONGODB_URI) {
-  process.env.MONGODB_URI = 'mongodb://localhost:27017/hunterxjobs';
-  logger.info(`Setting default MongoDB URI: ${process.env.MONGODB_URI}`);
+  logger.error('MONGODB_URI is not configured. Please set it in your environment variables.');
+  process.exit(1);
 }
 
-// Always try to connect to MongoDB first
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  retryWrites: true,
+  w: 'majority'
 })
   .then(() => {
     logger.info('MongoDB connected successfully');
     // Create initial admin and developer users
     createInitialAdmin();
-    // Still use mock data for LinkedIn and other services if configured
-    if (process.env.USE_MOCK_DATA === 'true') {
-      logger.info('Using mock data for services while connected to MongoDB');
-      global.useMockData = true;
-    }
   })
   .catch(err => {
     logger.error('MongoDB connection error:', err.message);
-    logger.info('Falling back to mock data mode');
-    process.env.USE_MOCK_DATA = 'true';
-    global.useMockData = true;
+    process.exit(1); // Exit if we can't connect to the database
   });
 
 // Define routes

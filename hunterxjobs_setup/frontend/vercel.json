@@ -7,6 +7,7 @@
     }
   ],
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://hunterxjobs-backend.vercel.app"
+    "NEXT_PUBLIC_API_URL": "https://hunterxjobs-backend.vercel.app",
+    "USE_MOCK_DATA": "false"
   }
 } 
