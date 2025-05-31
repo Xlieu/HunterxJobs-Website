@@ -1,0 +1,1 @@
+router.post('/analyze-profile', agentController.analyzeProfile); 

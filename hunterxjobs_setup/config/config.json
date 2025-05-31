@@ -1,0 +1,65 @@
+{
+    "agents": {
+        "project_manager": {
+            "name": "ProjectManager",
+            "enabled": true
+        },
+        "programmer": {
+            "name": "Programmer",
+            "enabled": true
+        },
+        "debugger": {
+            "name": "Debugger",
+            "enabled": true
+        },
+        "linkedin_optimizer": {
+            "name": "LinkedInOptimizer",
+            "enabled": true
+        },
+        "security": {
+            "name": "Security",
+            "enabled": true
+        }
+    },
+    "logging": {
+        "level": "INFO",
+        "file": "hunterxjobs.log"
+    },
+    "system": {
+        "message_processing_interval": 1.0,
+        "max_queue_size": 1000
+    },
+    "linkedin": {
+        "api_rate_limit": 800,
+        "oauth_settings": {
+            "client_id": "YOUR_CLIENT_ID",
+            "client_secret": "YOUR_CLIENT_SECRET",
+            "redirect_uri": "YOUR_REDIRECT_URI",
+            "scope": "openid profile email w_member_social"
+        }
+    },
+    "security": {
+        "encryption": {
+            "algorithm": "AES-256",
+            "key_rotation_interval": 900
+        },
+        "jwt": {
+            "expiration": 900,
+            "algorithm": "HS256"
+        },
+        "allowed_ports": [22, 80, 443, 3306, 5432, 6379]
+    },
+    "database": {
+        "type": "postgresql",
+        "host": "localhost",
+        "port": 5432,
+        "name": "hunterxjobs",
+        "user": "hunterxjobs_user",
+        "password": "CHANGE_THIS_PASSWORD"
+    },
+    "cache": {
+        "type": "redis",
+        "host": "localhost",
+        "port": 6379
+    }
+}

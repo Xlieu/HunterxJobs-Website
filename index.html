@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HunterXJobs - AI-Powered LinkedIn Optimization</title>
+    <style>
+        :root {
+            /* Primary colors - purple */
+            --primary-50: #faf5ff;
+            --primary-100: #f3e8ff;
+            --primary-200: #e9d5ff;
+            --primary-300: #d8b4fe;
+            --primary-400: #c084fc;
+            --primary-500: #a855f7;
+            --primary-600: #9333ea;
+            --primary-700: #7e22ce;
+            --primary-800: #6b21a8;
+            --primary-900: #581c87;
+            
+            /* Secondary colors - blue */
+            --secondary-50: #eff6ff;
+            --secondary-100: #dbeafe;
+            --secondary-200: #bfdbfe;
+            --secondary-300: #93c5fd;
+            --secondary-400: #60a5fa;
+            --secondary-500: #3b82f6;
+            --secondary-600: #2563eb;
+            --secondary-700: #1d4ed8;
+            --secondary-800: #1e40af;
+            --secondary-900: #1e3a8a;
+            
+            /* Background colors */
+            --bg-dark: #0a0a0a;
+            --bg-card: #111111;
+            --bg-card-inner: #1a1a1a;
+            
+            /* Text colors */
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
+            
+            /* Border colors */
+            --border-dark: #27272a;
+            --border-darker: #3f3f46;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-dark);
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid var(--border-dark);
+            background-color: var(--bg-card);
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(to bottom right, rgba(168, 85, 247, 0.1), rgba(99, 102, 241, 0.1));
+            z-index: 0;
+        }
+        
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #a855f7, #6366f1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        h2 {
+            border-bottom: 2px solid var(--primary-600);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            color: var(--text-primary);
+        }
+        
+        h3 {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+        
+        p {
+            color: var(--text-secondary);
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+            flex: 1 1 300px;
+            border: 1px solid var(--border-dark);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: var(--border-darker);
+            transform: translateY(-3px);
+        }
+        
+        .features {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .features li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .features li:before {
+            content: "✓";
+            color: var(--primary-500);
+            position: absolute;
+            left: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary-500), var(--secondary-600));
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-darker);
+            color: var(--text-secondary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--bg-card-inner);
+            color: var(--text-primary);
+            box-shadow: none;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-dark);
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .tech {
+            background: var(--bg-card-inner);
+            color: var(--text-secondary);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border-dark);
+        }
+        
+        a {
+            color: var(--primary-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        a:hover {
+            color: var(--primary-300);
+        }
+        
+        .glass-card {
+            background-color: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .feature-icon {
+            background: linear-gradient(to bottom right, var(--primary-500), var(--secondary-600));
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HunterXJobs</h1>
+        <p>AI-Powered LinkedIn Profile Optimization for Job Seekers</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>About This Project</h2>
+            <p>HunterXJobs is a comprehensive platform designed to help job seekers optimize their LinkedIn profiles using advanced AI technology. Our system analyzes your profile, compares it against industry benchmarks, and provides actionable recommendations to increase your visibility to recruiters.</p>
+        </section>
+
+        <section>
+            <h2>Key Features</h2>
+            <div class="container">
+                <div class="card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </div>
+                    <h3>LinkedIn Profile Analysis</h3>
+                    <ul class="features">
+                        <li>Comprehensive analysis of your LinkedIn profile</li>
+                        <li>Industry-specific benchmarking</li>
+                        <li>Detailed scoring of individual profile sections</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18.5c-3.58 0-6.5-2.92-6.5-6.5s2.92-6.5 6.5-6.5 6.5 2.92 6.5 6.5-2.92 6.5-6.5 6.5zm0-14A7.5 7.5 0 1 0 19.5 12 7.508 7.508 0 0 0 12 4.5zm0 11.5c-2.208 0-4-1.792-4-4s1.792-4 4-4 4 1.792 4 4-1.792 4-4 4z"></path></svg>
+                    </div>
+                    <h3>AI-Powered Optimization</h3>
+                    <ul class="features">
+                        <li>Smart recommendations for improvement</li>
+                        <li>Keyword optimization for better visibility</li>
+                        <li>Content enhancement suggestions</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.5 22H4c-1.103 0-2-.897-2-2V8c0-1.103.897-2 2-2h3.5V4c0-1.103.897-2 2-2h5c1.103 0 2 .897 2 2v2H20c1.103 0 2 .897 2 2v12c0 1.103-.897 2-2 2zM4 8v12h16.5V8H4z"></path></svg>
+                    </div>
+                    <h3>Intelligent Agent System</h3>
+                    <ul class="features">
+                        <li>Multi-agent AI architecture</li>
+                        <li>Specialized agents for different tasks</li>
+                        <li>Continuous learning and improvement</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card">
+            <h2>Project Architecture</h2>
+            <p>This project is built using a modern full-stack architecture with the following components:</p>
+            <div class="container">
+                <div class="card">
+                    <h3>Frontend</h3>
+                    <p>Modern, responsive user interface built with:</p>
+                    <div class="tech-stack">
+                        <span class="tech">Next.js</span>
+                        <span class="tech">React</span>
+                        <span class="tech">TypeScript</span>
+                        <span class="tech">Tailwind CSS</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Backend</h3>
+                    <p>Robust API and business logic with:</p>
+                    <div class="tech-stack">
+                        <span class="tech">Express.js</span>
+                        <span class="tech">Node.js</span>
+                        <span class="tech">MongoDB</span>
+                        <span class="tech">JWT Authentication</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>AI System</h3>
+                    <p>Advanced agent-based architecture with:</p>
+                    <div class="tech-stack">
+                        <span class="tech">Multi-agent framework</span>
+                        <span class="tech">NLP processing</span>
+                        <span class="tech">LinkedIn API integration</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Getting Started</h2>
+            <p>To run this project locally, please follow the setup instructions in our documentation:</p>
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <a href="hunterxjobs_setup/SETUP_GUIDE.md" class="btn">View Setup Guide</a>
+                <a href="hunterxjobs_setup/DOCUMENTATION.md" class="btn btn-outline">Read Documentation</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Note: This is a preview page for the HunterxJobs project. The full application requires proper deployment with both frontend and backend services.</p>
+        <p>© 2024 HunterxJobs | <a href="https://github.com/Xlieu/HunterxJobs-Website">GitHub Repository</a></p>
+    </footer>
+</body>
+</html> 
